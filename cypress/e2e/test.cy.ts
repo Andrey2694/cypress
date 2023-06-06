@@ -73,8 +73,8 @@ describe('test2', () => {
     cy.get('.Automation').check().should('be.checked');
   });
 
-  it.only('radio btn test', () => {
-    cy.get('#male').check().should('be.checked');
+  it('radio btn test', () => {
+    cy.get('#male').check().should('not.be.checked');
   });
 
   it('select test', () => {

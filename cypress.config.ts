@@ -1,6 +1,7 @@
 import { defineConfig } from 'cypress';
 
 module.exports = defineConfig({
+  projectId: 'h1difc',
   reporter: 'cypress-mochawesome-reporter',
   retries: {
     runMode: 1,
