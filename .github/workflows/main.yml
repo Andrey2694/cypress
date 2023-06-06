@@ -1,20 +1,31 @@
-name: Cypress Tests
+name: Cypress Tests with Dependency and Artifact Caching
 
 on: push
 
 jobs:
   install:
-  # ... omitted install job from above
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Cypress install
+        uses: cypress-io/github-action@v5
+        with:
+          # Disable running of tests within install job
+          runTests: false
+          build: npm run build
+
+      - name: Save build folder
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          if-no-files-found: error
+          path: build
 
   cypress-run:
     runs-on: ubuntu-22.04
     needs: install
-    strategy:
-      # don't fail the entire matrix on failure
-      fail-fast: false
-      matrix:
-        # run copies of the current job in parallel
-        containers: [1, 2, 3, 4, 5]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -23,11 +34,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build
+          path: build
 
       - name: Cypress run
         uses: cypress-io/github-action@v5
         with:
-          build: npm run build
-          record: true
-          parallel: true
           start: npm start
+          browser: chrome
