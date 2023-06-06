@@ -15,7 +15,7 @@ module.exports = defineConfig({
     saveAllAttempts: true,
     overwrite: true,
   },
-  video: false,
+  // video: false,
   e2e: {
     watchForFileChanges: false,
     env: {
